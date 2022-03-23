@@ -2,6 +2,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
+import random
 
 def plot_grid():
     figure(figsize=(20, 20), dpi=80)
@@ -10,7 +11,8 @@ def plot_grid():
     base_path = 'Data'
     for i in os.listdir(base_path):
         full_file = np.load(os.path.join(base_path,i))
-        one_sample = full_file[0,:]
+        random_sample = random.randint(0,500)
+        one_sample = full_file[random_sample,:]
         print(one_sample.shape)
         print(type(one_sample))
         one_sample = np.reshape(one_sample,(28,28))
