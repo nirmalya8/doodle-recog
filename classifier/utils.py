@@ -1,3 +1,8 @@
+'''
+This file contains the implementation of useful functions for
+the task of recognition and model creation. 
+'''
+
 import numpy as np
 import torch
 from torch.utils.data import Dataset, TensorDataset
@@ -37,28 +42,6 @@ def load_dataset(base_folder, data_split=0.10, data_per_class = 2000):
         
     return x_train,x_test,y_train,y_test,classes
 
-x_train,x_test,y_train,y_test,classes = load_dataset('Data')
 
-# def to_categorical(y, num_classes):
-#     n = y.shape[0]
-#     input_shape = y.shape
-#     input_shape = y.shape
-#     if input_shape and input_shape[-1] == 1 and len(input_shape) > 1:
-#         input_shape = tuple(input_shape[:-1])
-#     y = y.ravel()
-#     if not num_classes:
-#         num_classes = np.max(y) + 1
-#     categorical = np.zeros((n, num_classes), dtype='int')
-#     categorical[np.arange(n,dtype='int') , y] = 1
-#     output_shape = input_shape + (num_classes,)
-#     categorical = np.reshape(categorical, output_shape)
-#     return categorical
-#    
 def to_categorical(y, num_classes):
     return np.eye(num_classes, dtype='int')[y]
-
-
-print(y_train.shape,y_test.shape)
-y_train = to_categorical(y_train.astype(int),len(classes))
-y_test = to_categorical(y_test.astype(int),len(classes))
-print(y_train.shape,y_test.shape)

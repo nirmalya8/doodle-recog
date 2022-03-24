@@ -1,3 +1,7 @@
+'''
+This file can be run to vizualize 1 random image of each category
+from the dataset. 
+'''
 import numpy as np
 import os
 import matplotlib.pyplot as plt
