@@ -45,3 +45,18 @@ def load_dataset(base_folder, data_split=0.10, data_per_class = 2000):
 
 def to_categorical(y, num_classes):
     return np.eye(num_classes, dtype='int')[y]
+
+def vertical_flip(tensor):
+    """
+    Flips tensor vertically.
+    """
+    tensor = tensor.flip(1)
+    return tensor
+
+
+def horizontal_flip(tensor):
+    """
+    Flips tensor horizontally.
+    """
+    tensor = tensor.flip(2)
+    return tensor

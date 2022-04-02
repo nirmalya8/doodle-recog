@@ -14,9 +14,6 @@ import torch.nn.functional as F
 
 from utils import load_dataset
 
-x_train,x_test,y_train,y_test,classes = load_dataset('./Data')
-x_train = torch.tensor(x_train)
-y_train = torch.tensor(y_train)
 
 class DoodleDataset(Dataset):
     def __init__(self, tensors, transform=None):
