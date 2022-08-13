@@ -11,15 +11,9 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import os
 import torch.nn.functional as F
-import torch.nn as nn
+
 from utils import load_dataset,to_categorical,horizontal_flip, vertical_flip
 from dataset import DoodleDataset
-
-class DoodleClassifier(nn.Module):
-    def __init__(self,dataset):
-        super(DoodleClassifier, self).__init__()
-        
-
 
 image_size = 28
 x_train,x_test,y_train,y_test,classes = load_dataset('..\Data')
