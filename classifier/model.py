@@ -12,10 +12,7 @@ import matplotlib.pyplot as plt
 import os
 import torch.nn.functional as F
 import torch.nn as nn
-
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-
+from torchvision import models
 def change_layers(model):
     model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
     model.fc = nn.Linear(2048, 10, bias=True)
