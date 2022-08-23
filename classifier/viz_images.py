@@ -12,7 +12,7 @@ def plot_grid():
     figure(figsize=(20, 20), dpi=80)
     fig, axs = plt.subplots(5, 2, constrained_layout=True)
     g1,g2 = [0,0]
-    base_path = '..\Data'
+    base_path = 'Data'
     for i in os.listdir(base_path):
         full_file = np.load(os.path.join(base_path,i))
         random_sample = random.randint(0,500)

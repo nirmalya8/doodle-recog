@@ -12,38 +12,17 @@ import matplotlib.pyplot as plt
 import os
 import torch.nn.functional as F
 import torch.nn as nn
-from utils import load_dataset,to_categorical,horizontal_flip, vertical_flip
-from dataset import DoodleDataset
 
-class DoodleClassifier(nn.Module):
-    def __init__(self,dataset):
-        super(DoodleClassifier, self).__init__()
-        
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-image_size = 28
-x_train,x_test,y_train,y_test,classes = load_dataset('..\Data')
-x_train = x_train.reshape(x_train.shape[0], image_size, image_size, 1).astype('float32')
-x_test = x_test.reshape(x_test.shape[0], image_size, image_size, 1).astype('float32')
-
-x_train /= 255.0
-x_test /= 255.0
+def change_layers(model):
+    model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+    model.fc = nn.Linear(2048, 10, bias=True)
+    return model 
 
 
-y_train = to_categorical(y_train.astype(int),len(classes))
-y_test = to_categorical(y_test.astype(int),len(classes))
-
-x_train = torch.tensor(x_train)
-y_train = torch.tensor(y_train)
-
-train_dataset = DoodleDataset(tensors=(x_train, y_train), transform=vertical_flip)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=32)
-
-x_test = torch.tensor(x_test)
-y_test = torch.tensor(y_test)
-
-test_dataset = DoodleDataset(tensors=(x_test, y_test), transform=vertical_flip)
-test_loader = torch.utils.data.DataLoader(test_dataset)
-
-print(y_train.shape,y_test.shape)
-print(x_train.shape,x_test.shape)
+def get_model():
+    model = models.resnet50(pretrained=True)
+    model = change_layers(model)
+    return model
