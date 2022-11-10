@@ -11,23 +11,24 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import os
 import torch.nn.functional as F
-
+from PIL import Image
 from utils import load_dataset
 
 
 class DoodleDataset(Dataset):
-    def __init__(self, tensors, transform=None):
-        assert all(tensors[0].size(0) == tensor.size(0) for tensor in tensors)
-        self.tensors = tensors
+    def __init__(self, data, labels, transform=None):
+        self.data = data
+        self.labels = torch.LongTensor(labels)
         self.transform = transform
 
     def __getitem__(self,idx):
-        x = self.tensors[0][idx]
-        if self.transform:
+        x = self.data[idx]
+        y = self.labels[idx]
+        if self.transform is not None:
+            x = Image.fromarray(self.data[index].astype(np.uint8).transpose(1,2,0))
             x = self.transform(x)
-        y = self.tensors[1][idx]
         return x, y
 
     def __len__(self):
-        return self.tensors[0].size(0)
+        return len(self.data)
 
