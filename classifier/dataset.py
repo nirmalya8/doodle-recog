@@ -25,7 +25,10 @@ class DoodleDataset(Dataset):
         x = self.data[idx]
         y = self.labels[idx]
         if self.transform is not None:
-            x = Image.fromarray(self.data[index].astype(np.uint8).transpose(1,2,0))
+            #print(x.shape,type(x))
+            x = x.reshape(28,28)
+            x = Image.fromarray(x.astype(np.uint8))#.transpose(1,2,0))
+            #x = Image.fromarray(self.data[idx].reshape(28,28,1))
             x = self.transform(x)
         return x, y
 

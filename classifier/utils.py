@@ -61,8 +61,8 @@ def horizontal_flip(tensor):
     tensor = tensor.flip(2)
     return tensor
 
-#if __name__ == "__main__":
-#    a,b,c,d,e = load_dataset("Data")
-#    print("x_train",type(a),type(c))
-#    print("x_test",type(b),type(d))
-#    print(len(e))
+if __name__ == "__main__":
+    a,b,c,d,e = load_dataset("Data")
+    print("x_train",type(a),type(c))
+    print("x_test",type(b),type(d))
+    print(len(e))

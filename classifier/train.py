@@ -24,35 +24,33 @@ x_train,x_test,y_train,y_test,classes = load_dataset('./Data')
 x_train = x_train.reshape(x_train.shape[0], image_size, image_size, 1).astype('float32')
 x_test = x_test.reshape(x_test.shape[0], image_size, image_size, 1).astype('float32')
 print(classes)
-transforms = transforms.Compose([transforms.Resize((32, 32)),vertical_flip])
-x_train /= 255.0
-x_test /= 255.0
+print(x_train.shape,type(x_train))
+print(y_train.shape, type(y_train))
+
+transforms = transforms.ToTensor()
+#x_train /= 255.0
+#x_test /= 255.0
 
 
-y_train = to_categorical(y_train.astype(int),len(classes))
-y_test = to_categorical(y_test.astype(int),len(classes))
+#y_train = to_categorical(y_train.astype(int),len(classes))
+#y_test = to_categorical(y_test.astype(int),len(classes))
 
-x_train = torch.tensor(x_train)
-y_train = torch.tensor(y_train)
-
-train_dataset = DoodleDataset(tensors=(x_train, y_train), transform=transforms)
+print(y_train.shape)
+train_dataset = DoodleDataset(x_train, y_train, transform=transforms)
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64)
+print(len(train_loader.dataset))
 
-x_test = torch.tensor(x_test)
-y_test = torch.tensor(y_test)
-
-test_dataset = DoodleDataset(tensors=(x_test, y_test), transform=transforms)
+test_dataset = DoodleDataset(x_test, y_test, transform=transforms)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64)
 
-print(y_train.shape,y_test.shape)
-print(x_train.shape,x_test.shape)
+#print(y_train.shape,y_test.shape)
+#print(x_train.shape,x_test.shape)
 
 model = LeNet()
 #if(torch.cuda.is_available()):
 #    model = model.cuda()
-
+c = 0
 print('Training....')
-total = 0
 correct = 0
 start = time.time()
 criterion = nn.CrossEntropyLoss()
@@ -60,7 +58,11 @@ optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 num_epochs = 10
 total_step = len(train_loader)
 for epoch in range(num_epochs):
+    print(epoch)
+    c = 0
     for i, (images, labels) in enumerate(train_loader):  
+        #c+=1
+        #print(c)
         #images = images.to(device)
        # labels = labels.to(device)
         
@@ -72,11 +74,16 @@ for epoch in range(num_epochs):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        		
-        if (i+1) % 400 == 0:
+
+        #l = labels.view(1,-1)
+        #correct += (outputs == labels).float().sum()
+        #print(i)		
+        if (i+1) % 64 == 0:
             print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}' .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
+    accuracy = 100 * correct / len(train_loader)
+    print('Epoch[{}] Accuracy = {}'.format(epoch,accuracy))
 
 print('Training Completed in: {} secs'.format(time.time()-start))
-print('Training accuracy: {} %'.format((correct/total)*100))
-torch.save(net.state_dict(), './Models/lenet1.pt')
+#print('Training accuracy: {} %'.format((correct/total)*100))
+torch.save(model.state_dict(), './Models/lenet1.pt')
 

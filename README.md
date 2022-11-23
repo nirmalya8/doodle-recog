@@ -11,4 +11,4 @@ Step 3: python app.py (or python3 app.py [whichever works])
 
 References:
 1. [Stackoverflow: From NumPy arrays to a PyTorch Dataset class](https://stackoverflow.com/questions/44429199/how-to-load-a-list-of-numpy-arrays-to-pytorch-dataset-loader)
-
+2. [Evaluating trained models in PyTorch](https://stackoverflow.com/questions/71534943/how-to-evaluate-a-trained-model-in-pytorch)

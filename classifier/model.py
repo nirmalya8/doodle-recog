@@ -28,7 +28,7 @@ class LeNet(nn.Module):
             nn.BatchNorm2d(16),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size = 2, stride = 2))
-        self.fc = nn.Linear(400, 120)
+        self.fc = nn.Linear(256, 120)
         self.relu = nn.ReLU()
         self.fc1 = nn.Linear(120, 84)
         self.relu1 = nn.ReLU()
@@ -37,7 +37,9 @@ class LeNet(nn.Module):
     def forward(self, x):
         out = self.layer1(x)
         out = self.layer2(out)
+        #print(out.shape)
         out = out.reshape(out.size(0), -1)
+        #print(out.shape)
         out = self.fc(out)
         out = self.relu(out)
         out = self.fc1(out)
