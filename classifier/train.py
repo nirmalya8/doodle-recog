@@ -18,6 +18,7 @@ from utils import load_dataset,to_categorical,horizontal_flip, vertical_flip
 from dataset import DoodleDataset
 from model import LeNet 
 from torchvision import models
+from evaluate import test
 
 image_size = 28
 x_train,x_test,y_train,y_test,classes = load_dataset('./Data')
@@ -55,10 +56,10 @@ correct = 0
 start = time.time()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-num_epochs = 10
+num_epochs = 37
 total_step = len(train_loader)
 for epoch in range(num_epochs):
-    print(epoch)
+    print("Epoch = {}".format(epoch))
     c = 0
     for i, (images, labels) in enumerate(train_loader):  
         #c+=1
@@ -80,10 +81,14 @@ for epoch in range(num_epochs):
         #print(i)		
         if (i+1) % 64 == 0:
             print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}' .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
-    accuracy = 100 * correct / len(train_loader)
-    print('Epoch[{}] Accuracy = {}'.format(epoch,accuracy))
+    print("Training Set: ")
+    test(model,train_loader)
+    print("Test Set: ")
+    test(model,test_loader)
+    # accuracy = 100 * correct / len(train_loader)
+    # print('Epoch[{}] Accuracy = {}'.format(epoch,accuracy))
 
 print('Training Completed in: {} secs'.format(time.time()-start))
 #print('Training accuracy: {} %'.format((correct/total)*100))
-torch.save(model.state_dict(), './Models/lenet1.pt')
+torch.save(model.state_dict(), './Models/lenet4.pt')
 

@@ -36,10 +36,9 @@ def test(model, test_loader):
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
-
-    print('\nTest set: Accuracy: {}/{} ({:.0f}%)\n'.format(
+    # acc = 100. * correct / len(test_loader.dataset)
+    print('\nAccuracy: {}/{} ({:.0f}%)\n'.format(
          correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
-
 
 test(model, test_loader)
